@@ -1,26 +1,25 @@
 <?php
 
-namespace TypeForge\Core;
+namespace TypeForge\Http;
+
+use TypeForge\Handlers\Handler;
+use TypeForge\Http\BodyParser\BodyParser;
 
 class Router
 {
   private array $routes = array();
-  private Config $config;
-
-  public function __construct(Config $config)
-  {
-    $this->config = $config;
-  }
+  private BodyParser $bodyParser;
 
   /**
    * register a GET route
    * @param string $route
    * @param callable $callback
    */
-  public function get(string $route, callable ...$callbacks)
+  public function get(string $route, Handler ...$handlers): Router
   {
     $key = $this->methodRouteKey("GET", $route);
-    $this->routes[$key] = [...$callbacks];
+    $this->routes[$key] = [...$handlers];
+    return $this;
   }
 
   /**
@@ -28,10 +27,11 @@ class Router
    * @param string $route
    * @param callable $callback
    */
-  public function post(string $route, callable ...$callbacks)
+  public function post(string $route, callable ...$callbacks): Router
   {
     $key = $this->methodRouteKey("POST", $route);
     $this->routes[$key] = [...$callbacks];
+    return $this;
   }
 
   /**
@@ -40,10 +40,9 @@ class Router
   public function run()
   {
     // get the current route and method
-    $request = new Request($this->config->get("json") ?? false);
+    $request = new Request($this->bodyParser);
 
     // remove the query string from the route
-
     $methodRoute = $this->methodRouteKey($request->getMethod(), $request->getRoute());
 
     // check if the route exists

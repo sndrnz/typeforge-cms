@@ -1,6 +1,8 @@
 <?php
 
-namespace TypeForge\Core;
+namespace TypeForge\Http;
+
+use TypeForge\Http\BodyParser\BodyParser;
 
 class Request
 {
@@ -9,12 +11,12 @@ class Request
   private array $query;
   private array|null $body;
 
-  public function __construct(bool $json)
+  public function __construct(BodyParser $bodyParser)
   {
     $this->method = $_SERVER['REQUEST_METHOD'];
     $this->route = explode('?', $_SERVER['REQUEST_URI'])[0];
     $this->query = $_GET;
-    $this->body = $json ? json_decode(file_get_contents('php://input'), true) : $_POST;
+    $this->body = $bodyParser->parse();
   }
 
   public function getMethod()

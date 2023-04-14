@@ -5,10 +5,10 @@ namespace TypeForge\Core;
 use TypeForge\Exceptions\InvalidFieldsException;
 use TypeForge\Exceptions\MissingFieldsException;
 
-class ItemResolver
+class ContentResolver
 {
   private string $type;
-  private TypeResolver $typeResolver;
+  private SchemaResolver $schemaResolver;
 
   /**
    * @param string $type singular type name
@@ -16,7 +16,7 @@ class ItemResolver
   public function __construct(string $type)
   {
     $this->type = $type;
-    $this->typeResolver = new TypeResolver($type);
+    $this->schemaResolver = new SchemaResolver($type);
   }
 
   /**
@@ -25,7 +25,7 @@ class ItemResolver
    */
   public function getAll(): array
   {
-    $item_folder = $this->typeResolver->getContentFolder();
+    $item_folder = $this->schemaResolver->getContentFolder();
 
     // if the folder does not exist, return an empty array
     if (!file_exists($item_folder)) {
@@ -52,7 +52,7 @@ class ItemResolver
    */
   public function getById(string $id): array|null
   {
-    $item_file = $this->typeResolver->getItemFile($id);
+    $item_file = $this->schemaResolver->getItemFile($id);
 
     // if the file does not exist, return null
     if (!file_exists($item_file)) {
@@ -81,7 +81,7 @@ class ItemResolver
    */
   public function create(array $data): array|false
   {
-    $item_folder = $this->typeResolver->getContentFolder();
+    $item_folder = $this->schemaResolver->getContentFolder();
 
     // if the folder does not exist, return an empty array
     if (!file_exists($item_folder)) {
@@ -90,7 +90,7 @@ class ItemResolver
     }
 
     // check if $data matches the fields defined in the fields of the type
-    $type = $this->typeResolver->getType();
+    $type = $this->schemaResolver->getType();
     $fields = $type['fields'];
     $missingFields = array();
     foreach ($fields as $field) {
@@ -120,7 +120,7 @@ class ItemResolver
       $data
     );
 
-    $item_file = $this->typeResolver->getItemFile($id);
+    $item_file = $this->schemaResolver->getItemFile($id);
 
     $item_json = json_encode($item, JSON_PRETTY_PRINT);
 

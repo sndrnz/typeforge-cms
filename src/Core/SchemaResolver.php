@@ -4,7 +4,7 @@ namespace TypeForge\Core;
 
 use TypeForge\Exceptions\TypeNotFoundException;
 
-class TypeResolver
+class SchemaResolver
 {
   private string $type;
   private array|null $typeData = null;

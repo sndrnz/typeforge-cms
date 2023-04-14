@@ -2,10 +2,10 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use TypeForge\Core\ItemResolver;
+use TypeForge\Core\ContentResolver;
 use TypeForge\Core\Router;
 use TypeForge\Core\Config;
-use TypeForge\Core\Request;
+use TypeForge\Http\Request;
 use TypeForge\Exceptions\InvalidFieldsException;
 use TypeForge\Exceptions\TypeNotFoundException;
 use TypeForge\Exceptions\MissingFieldsException;
@@ -26,7 +26,7 @@ $router->post('/contact', function () {
   echo 'Contact';
 });
 
-$router->get('/api/items', function (Request $request) {
+$router->get('/api/content', function (Request $request) {
   header('Content-Type: application/json');
   $type = isset($_GET['type']) ? $_GET['type'] : null;
   $id = isset($_GET['id']) ? $_GET['id'] : null;
@@ -39,14 +39,14 @@ $router->get('/api/items', function (Request $request) {
   }
 
   try {
-    $itemResolver = new ItemResolver($type);
+    $contentResolver = new ContentResolver($type);
 
     // if id is given, return single item, otherwise return all items
-    $data = $id ? $itemResolver->getById($id) : $itemResolver->getAll();
+    $data = $id ? $contentResolver->getById($id) : $contentResolver->getAll();
 
     echo json_encode(
       [
-        'type' => $itemResolver->getType(),
+        'type' => $contentResolver->getType(),
         'data' => $data
       ]
     );
@@ -57,7 +57,7 @@ $router->get('/api/items', function (Request $request) {
   }
 });
 
-$router->post('/api/items', function () {
+$router->post('/api/content', function () {
   header('Content-Type: application/json');
   $data = json_decode(file_get_contents('php://input'), true);
   $type = isset($data['type']) ? $data['type'] : null;
@@ -80,14 +80,14 @@ $router->post('/api/items', function () {
 
   try {
     // create item
-    $itemResolver = new ItemResolver($type);
-    $item = $itemResolver->create($data);
+    $contentResolver = new ContentResolver($type);
+    $item = $contentResolver->create($data);
 
     // if item was created, return it
     if ($item) {
       echo json_encode(
         [
-          'type' => $itemResolver->getType(),
+          'type' => $contentResolver->getType(),
           'data' => $item
         ]
       );
@@ -114,13 +114,13 @@ $router->post('/api/items', function () {
 //   }
 
 //   try {
-//     $itemResolver = new ItemResolver($type);
-//     $schema = $itemResolver->getSchema();
+//     $contentResolver = new ContentResolver($type);
+//     $schema = $contentResolver->getSchema();
 
 //     header('Content-Type: application/json');
 //     echo json_encode(
 //       [
-//         'type' => $itemResolver->getType(),
+//         'type' => $contentResolver->getType(),
 //         'schema' => $schema
 //       ]
 //     );
