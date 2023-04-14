@@ -1,0 +1,18 @@
+{
+  "name": "sndrnz/typeforge-cms",
+  "description": "Simple Flat File CMS",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "TypeForge\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Sandro Darnuzer",
+      "email": "sandro.darnuzer@gmail.com"
+    }
+  ],
+  "require": {}
+}

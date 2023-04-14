@@ -1,0 +1,18 @@
+{
+  "name": "post",
+  "plural": "posts",
+  "fields": [
+    {
+      "name": "title",
+      "type": "string"
+    },
+    {
+      "name": "body",
+      "type": "string"
+    },
+    {
+      "name": "author",
+      "type": "string"
+    }
+  ]
+}
