@@ -6,7 +6,7 @@ class FileNameResolver
 {
   public static function schemaFile(string $type): string
   {
-    return "schema/{$type}.json";
+    return "../schema/{$type}.json";
   }
 
   public static function itemFile(string $type, string $id): string
@@ -17,6 +17,6 @@ class FileNameResolver
 
   public static function contentFolder(string $type): string
   {
-    return "content/{$type}";
+    return "../content/{$type}";
   }
 }
