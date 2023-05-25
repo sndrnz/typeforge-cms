@@ -9,6 +9,7 @@ class MissingFieldsException extends Exception
   public function __construct(string $type, array $fields)
   {
     $fields = implode(', ', $fields);
-    parent::__construct("Missing fields for type '{$type}': {$fields}");
+    $this->code = 422;
+    $this->message = "Missing fields for type '{$type}': {$fields}";
   }
 }

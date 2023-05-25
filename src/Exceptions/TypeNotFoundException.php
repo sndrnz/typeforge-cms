@@ -8,6 +8,7 @@ class TypeNotFoundException extends Exception
 {
   public function __construct(string $type)
   {
-    parent::__construct("Type '{$type}' not found");
+    $this->code = 404;
+    $this->message = "Type '{$type}' not found";
   }
 }
