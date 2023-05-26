@@ -1,0 +1,14 @@
+name = "post"
+plural = "posts"
+
+[[fields]]
+name = "title"
+type = "string"
+
+[[fields]]
+name = "body"
+type = "string"
+
+[[fields]]
+name = "author"
+type = "string"

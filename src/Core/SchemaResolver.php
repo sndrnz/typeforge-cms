@@ -3,6 +3,7 @@
 namespace TypeForge\Core;
 
 use TypeForge\Exceptions\TypeNotFoundException;
+use Yosymfony\Toml\Toml;
 
 class SchemaResolver
 {
@@ -35,7 +36,8 @@ class SchemaResolver
     if (!$content) {
       return null;
     }
-    $type = json_decode($content, true);
+    // $type = json_decode($content, true);
+    $type = Toml::parse($content);
 
     // cache the type data
     $this->typeData = $type;

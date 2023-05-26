@@ -1,0 +1,10 @@
+name = "user"
+plural = "users"
+
+[[fields]]
+name = "username"
+type = "string"
+
+[[fields]]
+name = "password"
+type = "string"

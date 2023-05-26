@@ -23,6 +23,7 @@
   "require": {
     "slim/slim": "^4.11",
     "slim/psr7": "^1.6",
-    "php-di/slim-bridge": "^3.3"
+    "php-di/slim-bridge": "^3.3",
+    "yosymfony/toml": "^1.0"
   }
 }

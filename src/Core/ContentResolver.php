@@ -4,6 +4,8 @@ namespace TypeForge\Core;
 
 use TypeForge\Exceptions\InvalidFieldsException;
 use TypeForge\Exceptions\MissingFieldsException;
+use Yosymfony\Toml\Toml;
+use Yosymfony\Toml\TomlBuilder;
 
 class ContentResolver
 {
@@ -35,10 +37,12 @@ class ContentResolver
     $items = array();
 
     // get all files in the folder
-    $files = glob("{$item_folder}/*.json");
+    $files = glob("{$item_folder}/*.toml");
     foreach ($files as $file) {
       // get the file content and decode it
-      $item = json_decode(file_get_contents($file), true);
+      // $item = json_decode(file_get_contents($file), true);
+      $content = file_get_contents($file);
+      $item = Toml::parse($content);
       $items[] = $item;
     }
 
@@ -60,7 +64,10 @@ class ContentResolver
     }
 
     // get the file content and decode it
-    $item = json_decode(file_get_contents($item_file), true);
+    // $item = json_decode(file_get_contents($item_file), true);
+
+    $content = file_get_contents($item_file);
+    $item = Toml::parse($content);
 
     return $item;
   }
@@ -122,8 +129,16 @@ class ContentResolver
 
     $item_file = $this->schemaResolver->getItemFile($id);
 
-    $item_json = json_encode($item, JSON_PRETTY_PRINT);
+    // $item_json = json_encode($item, JSON_PRETTY_PRINT);
 
-    return file_put_contents($item_file, $item_json) !== false ? $item : false;
+    $toml_builder = new TomlBuilder();
+
+    foreach ($item as $key => $value) {
+      $toml_builder->addValue($key, $value);
+    }
+
+    $item_toml = $toml_builder->getTomlString();
+
+    return file_put_contents($item_file, $item_toml) !== false ? $item : false;
   }
 }
