@@ -18,6 +18,9 @@
     "dev": [
       "Composer\\Config::disableProcessTimeout",
       "php -S localhost:8080 public/index.php"
+    ],
+    "test": [
+      "postman collection run 19348679-940d84af-1b32-4017-9354-fe5a8fc3716b"
     ]
   },
   "require": {
