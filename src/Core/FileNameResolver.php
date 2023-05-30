@@ -4,9 +4,15 @@ namespace TypeForge\Core;
 
 class FileNameResolver
 {
+  private static function getRoot(): string
+  {
+    return $_SERVER['DOCUMENT_ROOT'];
+  }
+
   public static function schemaFile(string $type): string
   {
-    return "../schema/{$type}.toml";
+    $root = self::getRoot();
+    return "{$root}/schema/{$type}.toml";
   }
 
   public static function itemFile(string $type, string $id): string
@@ -17,6 +23,7 @@ class FileNameResolver
 
   public static function contentFolder(string $type): string
   {
-    return "../content/{$type}";
+    $root = self::getRoot();
+    return "{$root}/content/{$type}";
   }
 }
