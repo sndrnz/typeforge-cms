@@ -17,7 +17,7 @@
   "scripts": {
     "dev": [
       "Composer\\Config::disableProcessTimeout",
-      "php -S localhost:5000"
+      "php -S localhost:8080 public/index.php"
     ]
   },
   "require": {
